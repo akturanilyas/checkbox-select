@@ -1,0 +1,56 @@
+{
+  "name": "story-book-project",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "tsc": "tsc",
+    "tsc:watch": "tsc --watch",
+    "start": "vite",
+    "tailwind:build": "npx tailwindcss -i ./src/index.css -o ./src/tailwind.css",
+    "tailwind:watch": "npx tailwindcss -i ./src/index.css -o ./src/tailwind.css --watch",
+    "format": "prettier --write \"./src/**/*.{ts,tsx,js,jsx,json}\" \"./__tests__/**/*.{ts,tsx,js,jsx,json}\"",
+    "svgr": "npx @svgr/cli ./src/assets/icons -d src/components/icons --typescript --icon --svg-props \"width=24,height=24\""
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tailwind-merge": "^2.0.0"
+  },
+  "devDependencies": {
+    "@storybook/addon-essentials": "7.6.0-alpha.4",
+    "@storybook/addon-interactions": "7.6.0-alpha.4",
+    "@storybook/addon-links": "7.6.0-alpha.4",
+    "@storybook/addon-onboarding": "1.0.8",
+    "@storybook/blocks": "7.6.0-alpha.4",
+    "@storybook/react": "7.6.0-alpha.4",
+    "@storybook/react-vite": "7.6.0-alpha.4",
+    "@storybook/test": "7.6.0-alpha.4",
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@vitejs/plugin-react-swc": "^3.3.2",
+    "autoprefixer": "^10.4.16",
+    "eslint": "^8.45.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.3",
+    "eslint-plugin-storybook": "^0.6.15",
+    "postcss": "^8.4.31",
+    "prettier": "3.0.3",
+    "@svgr/cli": "6.5.1",
+    "storybook": "7.6.0-alpha.4",
+    "tailwindcss": "^3.3.5",
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5"
+  },
+  "resolutions": {
+    "jackspeak": "2.1.1"
+  }
+}
