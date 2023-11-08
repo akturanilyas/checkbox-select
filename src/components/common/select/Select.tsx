@@ -3,110 +3,64 @@ import { TextInput } from '../text-input/TextInput.tsx';
 import { CUSTOM_ICON } from '../../../constants/customIcon.constant.ts';
 import { CustomIconProvider } from '../../../providers/CustomIconProvider.tsx';
 import { twMerge } from 'tailwind-merge';
-import { FC, useReducer } from 'react';
-import { SelectItem, SelectProps, SelectState } from './Select.interface.ts';
+import { FC, useState } from 'react';
+import { SelectItem, SelectProps } from './Select.interface.ts';
 import { CheckBox } from '../checkbox/CheckBox.tsx';
-
-enum ActionType {
-  SELECT = 'select',
-  UNSELECT = 'unselect',
-  SEARCH = 'search',
-}
+import { BaseText } from '../base-text/BaseText.tsx';
+import { Button } from '../button/Button.tsx';
 
 export const Select: FC<SelectProps> = (props) => {
-  const { items, placeholder, onChange } = props;
+  const { title, className, items, placeholder, onSubmit, defaultValues = [] } = props;
 
-  const [state, dispatch] = useReducer(
-    (
-      prevState: SelectState,
-      action: {
-        item?: SelectItem;
-        type: ActionType;
-        search?: string;
-      },
-    ) => {
-      const actions: {
-        [key: string]: () => SelectState;
-      } = {
-        [ActionType.SELECT]() {
-          const newState = prevState.items.map((prevItem) => {
-            if (prevItem.id === action.item!.id) {
-              return { ...action.item!, value: true };
-            }
+  const [search, setSearch] = useState<string>('');
+  const [selectedItems, setSelectedItems] = useState<Array<string>>(defaultValues);
 
-            return prevItem;
-          });
-
-          onChange && onChange({ items: newState, selectItem: { ...action.item!, value: true } });
-
-          return {
-            ...prevState,
-            items: newState,
-          };
-        },
-        [ActionType.UNSELECT]() {
-          const newState = prevState.items.map((prevItem) => {
-            if (prevItem.id === action.item!.id) {
-              return { ...action.item!, value: false };
-            }
-
-            return prevItem;
-          });
-
-          onChange && onChange({ items: newState, selectItem: { ...action.item!, value: false } });
-
-          return {
-            ...prevState,
-            items: newState,
-          };
-        },
-        [ActionType.SEARCH]() {
-          return {
-            ...prevState,
-            search: action.search || '',
-          };
-        },
-      };
-
-      return actions[action.type]();
-    },
-    { items, search: '' },
-  );
-
-  const className = twMerge(`
-   p-4 border rounded-md bg-slate-300 gap-4 h-full
+  const classes = twMerge(`
+   px-8 py-4 border rounded-md bg-slate-70 gap-4 h-full
+   ${className}
   `);
 
   const _onChange = (item: SelectItem, value: boolean) => {
-    dispatch({ type: value ? ActionType.SELECT : ActionType.UNSELECT, item });
+    if (value) {
+      setSelectedItems((prevState) => [...prevState, item.id]);
+
+      return;
+    }
+
+    setSelectedItems((prevState) => prevState.filter((prevItem) => prevItem !== item.id));
   };
 
+  const renderCheckBox = (item: SelectItem, value: boolean) => (
+    <CheckBox key={item.id} label={item.label} value={value} onChange={(value) => _onChange(item, value)} />
+  );
+
   return (
-    <BaseView className={className}>
-      <TextInput
-        onChangeCallback={(value) => dispatch({ type: ActionType.SEARCH, search: value })}
-        placeholder={placeholder}
-        suffix={<CustomIconProvider icon={CUSTOM_ICON.SEARCH} size={14} iconClassName={'text-slate-500'} />}
-      />
+    <BaseView className={classes}>
+      <BaseView>
+        {title && <BaseText label={title} className={'px-0'} textClassName={'font-medium text-lg text-black'} />}
+
+        <TextInput
+          onChangeCallback={(value) => setSearch(value)}
+          placeholder={placeholder || 'Kategori Ara...'}
+          suffix={<CustomIconProvider icon={CUSTOM_ICON.SEARCH} size={14} iconClassName={'text-slate-500'} />}
+        />
+      </BaseView>
 
       <BaseView className={'overflow-y-auto'}>
-        {state.items
-          .sort((prev, current) => Number(current.value) - Number(prev.value))
+        {items.filter((item) => selectedItems.includes(item.id)).map((item) => renderCheckBox(item, true))}
+
+        {items
+          .filter((item) => !selectedItems.includes(item.id))
           .map((item) => {
-            if (!(item.label.toLowerCase().includes(state.search.toLowerCase()) || item.value)) {
+            if (!item.label.toLowerCase().includes(search.toLowerCase())) {
               return;
             }
 
-            return (
-              <CheckBox
-                key={item.id}
-                label={item.label}
-                value={item.value}
-                onChange={(value) => _onChange(item, value)}
-              />
-            );
+            return renderCheckBox(item, false);
           })}
       </BaseView>
+
+      {onSubmit && <Button label={'Submit'} onClick={() => onSubmit(selectedItems)} />}
     </BaseView>
   );
 };

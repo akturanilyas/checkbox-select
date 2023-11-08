@@ -8,6 +8,7 @@ export default {
         slate: {
           DEFAULT: '#334155',
           50: '#f8fafc',
+          70: '#F8F8F8',
           100: '#f1f5f9',
           200: '#e2e8f0',
           300: '#cbd5e1',

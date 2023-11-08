@@ -17,7 +17,7 @@ export const TextInput: FC<TextInputProps> = (props) => {
 
   const inputClasses = twMerge(`
     text-sm bg-white placeholder:text-slate-350 font-medium
-    text-slate-500 focus:outline-none
+    text-slate-500 focus:outline-none w-full
   `);
 
   const suffixClasses = twMerge(`

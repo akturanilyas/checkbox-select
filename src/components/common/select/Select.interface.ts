@@ -1,13 +1,15 @@
 export interface SelectProps {
+  title?: string;
+  className?: string;
   items: Array<SelectItem>;
   placeholder?: string;
-  onChange?: ({ items, selectItem }: { items: Array<SelectItem>; selectItem: SelectItem }) => void;
+  defaultValues?: Array<string>;
+  onSubmit?: (items: Array<string>) => void;
 }
 
 export interface SelectItem {
   id: string;
   label: string;
-  value: boolean;
 }
 
 export type SelectState = {
