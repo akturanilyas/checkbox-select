@@ -31,7 +31,13 @@ export const Select: FC<SelectProps> = (props) => {
   };
 
   const renderCheckBox = (item: SelectItem, value: boolean) => (
-    <CheckBox key={item.id} label={item.label} value={value} onChange={(value) => _onChange(item, value)} />
+    <CheckBox
+      key={item.id}
+      name={item.label}
+      label={item.label}
+      value={value}
+      onChange={(value) => _onChange(item, value)}
+    />
   );
 
   return (
@@ -47,12 +53,12 @@ export const Select: FC<SelectProps> = (props) => {
       </BaseView>
 
       <BaseView className={'overflow-y-auto'}>
-        {items.filter((item) => selectedItems.includes(item.id)).map((item) => renderCheckBox(item, true))}
+        {items.filter((item) => selectedItems?.includes(item.id)).map((item) => renderCheckBox(item, true))}
 
         {items
-          .filter((item) => !selectedItems.includes(item.id))
+          .filter((item) => !selectedItems?.includes(item.id))
           .map((item) => {
-            if (!item.label.toLowerCase().includes(search.toLowerCase())) {
+            if (!item.label.toLowerCase()?.includes(search.toLowerCase())) {
               return;
             }
 

@@ -6,7 +6,7 @@ import { InputType } from '../../../enums/common.enum.ts';
 import { BaseText } from '../base-text/BaseText.tsx';
 
 export const CheckBox: FC<CheckBoxProps> = (props) => {
-  const { label, onChange, value } = props;
+  const { label, onChange, value, name } = props;
   const [_value, setValue] = useState<boolean>(false);
   const ref = useRef<HTMLInputElement>(null);
   const isChecked = value || _value;
@@ -30,16 +30,25 @@ export const CheckBox: FC<CheckBoxProps> = (props) => {
   return (
     <BaseView className={className} onClick={() => _onChange(!isChecked)}>
       <BaseView className={'p-1 border border-slate-400 bg-white'}>
-        <input
-          ref={ref}
-          type={InputType.CHECKBOX}
-          className={inputClasses}
-          checked={isChecked}
-          onChange={() => _onChange(!isChecked)}
-        />
+        <label htmlFor={'name'}>
+          <input
+            id={name}
+            ref={ref}
+            name={name}
+            type={InputType.CHECKBOX}
+            className={inputClasses}
+            data-testid={`input.${name || 'checkbox'}`}
+            checked={isChecked}
+            onChange={() => _onChange(!isChecked)}
+          />
+
+          <span id={name} />
+        </label>
       </BaseView>
 
-      <BaseText label={label} textClassName={isChecked ? 'text-blue-800' : 'text-black'} />
+      <label htmlFor={name}>
+        <BaseText label={label} textClassName={isChecked ? 'text-blue-800' : 'text-black'} />
+      </label>
     </BaseView>
   );
 };
