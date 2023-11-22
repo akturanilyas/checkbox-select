@@ -19,7 +19,7 @@ export const CheckBox: FC<CheckBoxProps> = (props) => {
   const inputClasses = twMerge(`
     checked:border-slate-400 z-50
     checked:bg-blue-700
-    appearance-none w-3 h-3 bg-white 
+    appearance-none w-3 h-3 bg-white
   `);
 
   const _onChange = (value: boolean) => {
@@ -29,8 +29,8 @@ export const CheckBox: FC<CheckBoxProps> = (props) => {
 
   return (
     <BaseView className={className} onClick={() => _onChange(!isChecked)}>
-      <BaseView className={'p-1 border border-slate-400 bg-white'}>
-        <label htmlFor={name}>
+      <label htmlFor={name}>
+        <BaseView className={'p-1 border border-slate-400 bg-white'}>
           <input
             id={name}
             ref={ref}
@@ -43,8 +43,8 @@ export const CheckBox: FC<CheckBoxProps> = (props) => {
           />
 
           <span id={name} />
-        </label>
-      </BaseView>
+        </BaseView>
+      </label>
 
       <label htmlFor={name}>
         <BaseText label={label} textClassName={isChecked ? 'text-blue-800' : 'text-black'} />
