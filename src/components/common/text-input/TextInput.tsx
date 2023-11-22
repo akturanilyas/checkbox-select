@@ -2,9 +2,10 @@ import BaseView from '../base-view/BaseView.tsx';
 import { ChangeEvent, FC, useState } from 'react';
 import { TextInputProps } from './TextInput.interface.ts';
 import { twMerge } from 'tailwind-merge';
+import { BaseText } from '../base-text/BaseText.tsx';
 
 export const TextInput: FC<TextInputProps> = (props) => {
-  const { placeholder, suffix, suffixContainerClasses, defaultValue = '', onChangeCallback } = props;
+  const { placeholder, suffix, suffixContainerClasses, defaultValue = '', onChangeCallback, label, name } = props;
 
   const [value, setValue] = useState<string>(defaultValue);
 
@@ -31,7 +32,19 @@ export const TextInput: FC<TextInputProps> = (props) => {
 
   return (
     <BaseView className={classes}>
-      <input className={inputClasses} onChange={onChange} value={value} placeholder={placeholder} />
+      <input
+        id={name}
+        name={name}
+        className={inputClasses}
+        onChange={onChange}
+        value={value}
+        placeholder={placeholder}
+      />
+      {label && (
+        <label htmlFor={name}>
+          <BaseText label={label} />
+        </label>
+      )}
       {suffix && <BaseView className={suffixClasses}>{suffix}</BaseView>}
     </BaseView>
   );

@@ -30,7 +30,7 @@ export const CheckBox: FC<CheckBoxProps> = (props) => {
   return (
     <BaseView className={className} onClick={() => _onChange(!isChecked)}>
       <BaseView className={'p-1 border border-slate-400 bg-white'}>
-        <label htmlFor={'name'}>
+        <label htmlFor={name}>
           <input
             id={name}
             ref={ref}
